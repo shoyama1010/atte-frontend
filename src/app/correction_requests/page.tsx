@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Layout from "@/components/Layout";
 
 type CorrectionRequest = {
@@ -107,14 +108,13 @@ export default function CorrectionListPage() {
           </tbody>
         </table>
       </div>
-
       <div className="mt-8 text-sm">
-        <a
+        <Link
           href="/attendances"
           className="text-blue-600 hover:underline inline-flex items-center"
         >
           ← 勤怠一覧へ戻る
-        </a>
+        </Link>
       </div>
     </Layout>
   );

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
-import { formatDate, formatTimeForInput } from "@/components/utils/time";
+import { formatTimeForInput } from "@/components/utils/time";
 
 type Attendance = {
   id: number;
@@ -14,7 +14,7 @@ type Attendance = {
   rest_start: string | null;
   rest_end: string | null;
   note: string | null;
-  status: string;
+  status: string; // pending / approved
 };
 
 export default function AttendanceDetailPage() {
@@ -24,7 +24,7 @@ export default function AttendanceDetailPage() {
   const [record, setRecord] = useState<Attendance | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Form state
+  // フォーム state
   const [clockIn, setClockIn] = useState("");
   const [clockOut, setClockOut] = useState("");
   const [restStart, setRestStart] = useState("");
@@ -37,10 +37,8 @@ export default function AttendanceDetailPage() {
       .then((res) => res.json())
       .then((data) => {
         setRecord(data);
-
         setClockIn(formatTimeForInput(data.clock_in_time));
         setClockOut(formatTimeForInput(data.clock_out_time));
-
         setRestStart(formatTimeForInput(data.rest_start));
         setRestEnd(formatTimeForInput(data.rest_end));
         setNote(data.note ?? "");
@@ -48,147 +46,117 @@ export default function AttendanceDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // 保存処理
-  const handleUpdate = async () => {
-    console.log("送信データ:", {
-      clock_in_time: clockIn,
-      clock_out_time: clockOut,
-      rest_start: restStart,
-      rest_end: restEnd,
-      note: note,
-    });
-
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          clock_in_time: clockIn,
-          clock_out_time: clockOut,
-          rest_start: restStart,
-          rest_end: restEnd,
-          note: note,
-        }),
-      }
-    );
-
-    console.log("ステータス:", res.status);
-    const text = await res.text();
-    console.log("レスポンス:", text);
-
-    if (res.ok) {
-      alert("変更を保存しました");
-      router.push("/attendances");
-    } else {
-      alert("更新に失敗しました");
-    }
-  };
-
-  // 読み込み中
-  if (loading || !record) {
+  if (loading) {
     return (
       <Layout>
-        <p className="text-center mt-10">読み込み中...</p>
+        <p className="text-center">読み込み中...</p>
+      </Layout>
+    );
+  }
+
+  if (!record) {
+    return (
+      <Layout>
+        <p className="text-center text-red-500">データが見つかりません。</p>
       </Layout>
     );
   }
 
   return (
     <Layout>
-      <h2 className="text-center text-2xl font-bold my-8">勤務詳細</h2>
+      <h2 className="text-2xl font-bold mb-8">勤務詳細</h2>
 
-      <div className="flex justify-center">
-        <div className="w-[700px] bg-white shadow-md rounded-lg border p-6">
-          {/* 名前・日付 */}
-          <table className="w-full border mb-6 text-sm">
-            <tbody>
-              <tr>
-                <th className="border p-3 bg-gray-50 w-1/3">名前</th>
-                <td className="border p-3">{record.user_name}</td>
-              </tr>
-              <tr>
-                <th className="border p-3 bg-gray-50">日付</th>
-                <td className="border p-3">{formatDate(record.date)}</td>
-              </tr>
-            </tbody>
-          </table>
+      {/* 上部メッセージ（承認待ち）
+      {record.status === "pending" && (
+        <div className="bg-yellow-100 text-yellow-800 p-3 rounded mb-6 text-center font-semibold">
+          承認待ちのため修正はできません。
+        </div>
+      )} */}
 
-          {/* 編集フォーム */}
-          <div className="space-y-6">
-            {/* 出勤・退勤 */}
-            <div>
-              <label className="font-semibold block mb-2">出勤・退勤</label>
-              <div className="flex gap-4">
-                <input
-                  type="time"
-                  value={clockIn}
-                  onChange={(e) => setClockIn(e.target.value)}
-                  className="border p-2 rounded w-32"
-                />
-                <span className="pt-2">〜</span>
-                <input
-                  type="time"
-                  value={clockOut}
-                  onChange={(e) => setClockOut(e.target.value)}
-                  className="border p-2 rounded w-32"
-                />
-              </div>
-            </div>
+      <div className="bg-white p-6 shadow-md rounded-lg max-w-2xl mx-auto">
 
-            {/* 休憩 */}
-            <div>
-              <label className="font-semibold block mb-2">休憩</label>
-              <div className="flex gap-4">
-                <input
-                  type="time"
-                  value={restStart}
-                  onChange={(e) => setRestStart(e.target.value)}
-                  className="border p-2 rounded w-32"
-                />
-                <span className="pt-2">〜</span>
-                <input
-                  type="time"
-                  value={restEnd}
-                  onChange={(e) => setRestEnd(e.target.value)}
-                  className="border p-2 rounded w-32"
-                />
-              </div>
-            </div>
+        {/* 基本情報 */}
+        <table className="w-full mb-6">
+          <tbody>
+            <tr>
+              <td className="py-2 font-bold w-32">名前</td>
+              <td className="py-2">{record.user_name}</td>
+            </tr>
+            <tr>
+              <td className="py-2 font-bold">日付</td>
+              <td className="py-2">{record.date}</td>
+            </tr>
+          </tbody>
+        </table>
 
-            {/* 備考 */}
-            <div>
-              <label className="font-semibold block mb-2">
-                備考（修正理由など）
-              </label>
-              <textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                className="border p-2 rounded w-full h-24"
+        {/* フォーム入力（承認待ちなら disabled） */}
+        <div className="space-y-6">
+          <div>
+            <label className="font-bold">出勤・退勤</label>
+            <div className="flex gap-3 mt-2">
+              <input
+                type="time"
+                value={clockIn}
+                disabled
+                className="border p-2 rounded w-32"
+              />
+              <span>〜</span>
+              <input
+                type="time"
+                value={clockOut}
+                disabled
+                className="border p-2 rounded w-32"
               />
             </div>
           </div>
 
-          {/* ボタン */}
-          <div className="flex justify-center gap-4 mt-8">
-            <button
-              onClick={handleUpdate}
-              className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800"
-            >
-              変更を保存
-            </button>
+          <div>
+            <label className="font-bold">休憩</label>
+            <div className="flex gap-3 mt-2">
+              <input
+                type="time"
+                value={restStart}
+                disabled
+                className="border p-2 rounded w-32"
+              />
+              <span>〜</span>
+              <input
+                type="time"
+                value={restEnd}
+                disabled
+                className="border p-2 rounded w-32"
+              />
+            </div>
+          </div>
 
-            <button
-              onClick={() => router.push("/attendances")}
-              className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400"
-            >
-              一覧に戻る
-            </button>
+          <div>
+            <label className="font-bold">備考（修正理由など）</label>
+            <textarea
+              value={note}
+              disabled
+              className="border p-2 rounded w-full h-24"
+            />
           </div>
         </div>
+
+        {/* 下部にも注意メッセージ */}
+        {record.status === "pending" && (
+          <div className="mt-6 bg-yellow-100 text-yellow-800 p-3 rounded text-center font-semibold">
+            承認待ちのため修正はできません。
+          </div>
+        )}
+
+        {/* 戻るボタンのみ */}
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => router.push("/attendances")}
+            className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400"
+          >
+            一覧に戻る
+          </button>
+        </div>
+
       </div>
     </Layout>
   );
 }
-
-

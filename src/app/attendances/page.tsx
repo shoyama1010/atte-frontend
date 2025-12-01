@@ -30,16 +30,16 @@ export default function AttendanceListPage() {
   return (
     <Layout>
       {/* タイトル */}
-      <h2 className='text-center text-2xl font-bold my-8'>勤務一覧</h2>
+      <h2 className='text-center text-2xl font-bold my-8'>勤怠一覧</h2>
 
       {/* テーブル中央寄せコンテナ */}
       <div className='flex justify-center'>
         <div className='w-[900px] bg-white shadow-md rounded-md border border-gray-300'>
           <table className='w-full border-collapse text-sm'>
             <thead>
-              <tr className='bg-gray-100 border-b border-gray-300 text-gray-700'>
-                <th className='py-3 px-4 border'>名前</th>
+              <tr className='bg-gray-100 border-b border-gray-300 text-gray-700'> 
                 <th className='py-3 px-4 border'>日付</th>
+                <th className='py-3 px-4 border'>名前</th>
                 <th className='py-3 px-4 border'>出勤</th>
                 <th className='py-3 px-4 border'>退勤</th>
                 <th className='py-3 px-4 border'>休憩</th>
@@ -50,8 +50,8 @@ export default function AttendanceListPage() {
             <tbody>
               {records.map((r) => (
                 <tr key={r.id} className='border-b'>
-                  <td className='py-3 px-4 border'>{r.user_name}</td>
                   <td className='py-3 px-4 border'>{formatDate(r.date)}</td>
+                  <td className='py-3 px-4 border'>{r.user_name}</td>
                   <td className='py-3 px-4 border'>
                     {r.clock_in_time ? formatTime(r.clock_in_time) : "-"}
                   </td>

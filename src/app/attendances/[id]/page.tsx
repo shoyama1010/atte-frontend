@@ -79,12 +79,12 @@ export default function AttendanceDetailPage() {
         <table className="w-full mb-6">
           <tbody>
             <tr>
-              <td className="py-2 font-bold w-32">名前</td>
-              <td className="py-2">{record.user_name}</td>
-            </tr>
-            <tr>
               <td className="py-2 font-bold">日付</td>
               <td className="py-2">{record.date}</td>
+            </tr>
+            <tr>
+              <td className="py-2 font-bold w-32">名前</td>
+              <td className="py-2">{record.user_name}</td>
             </tr>
           </tbody>
         </table>

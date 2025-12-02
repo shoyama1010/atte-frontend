@@ -9,8 +9,11 @@ http://localhost/3000
 # 機能一覧
 
 ＊ログイン機能は、「Laravel Fortify + Sanctum + API連携」で行う＊
+
 ①ユーザーは Laravel の /login でログイン。
+
 ②Laravel が XSRF-TOKEN + laravel_session Cookie を発行。
+
 ③Next.js 側の API リクエスト時に、その Cookie が自動的に送信される⇒Laravel は「ログイン済みユーザー」として認証。
 
 # 使用技術

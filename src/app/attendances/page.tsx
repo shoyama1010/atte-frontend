@@ -31,7 +31,6 @@ export default function AttendanceListPage() {
     <Layout>
       {/* タイトル */}
       <h2 className='text-center text-2xl font-bold my-8'>勤怠一覧</h2>
-
       {/* テーブル中央寄せコンテナ */}
       <div className='flex justify-center'>
         <div className='w-[900px] bg-white shadow-md rounded-md border border-gray-300'>
@@ -46,7 +45,6 @@ export default function AttendanceListPage() {
                 <th className='py-3 px-4 border'>詳細</th>
               </tr>
             </thead>
-
             <tbody>
               {records.map((r) => (
                 <tr key={r.id} className='border-b'>
@@ -58,7 +56,6 @@ export default function AttendanceListPage() {
                   <td className='py-3 px-4 border'>
                     {r.clock_out_time ? formatTime(r.clock_out_time) : "-"}
                   </td>
-
                   <td className='px-6 py-3 border'>
                     {r.rest_start != null && r.rest_end != null
                       ? `${formatTime(r.rest_start)} ～ ${formatTime(

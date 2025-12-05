@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import Layout from "@/components/Layout";
 
 type Attendance = {
@@ -35,7 +36,7 @@ export default function UserAttendancePage() {
 
   // API 取得
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/user/${id}?month=${month}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/user/`)
       .then((res) => res.json())
       .then((data) => {
         setRecords(data.records);
@@ -108,11 +109,10 @@ export default function UserAttendancePage() {
           </tbody>
         </table>
       </div>
-
       <div className="mt-8 text-sm">
-        <a href="/attendances" className="text-blue-600 hover:underline">
+        <Link href="/attendances" className="text-blue-600 hover:underline">
           ← 全体一覧に戻る
-        </a>
+        </Link>
       </div>
     </Layout>
   );

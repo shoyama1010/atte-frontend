@@ -1,10 +1,12 @@
-# attendance-frontend（フロントエンド）
+# attendance-frontend（勤怠管理：フロントエンド）
 
 # 作成した目的
 
+Laravelでのバックエンド側だけでなく、API連携により、Next.jsでのフロントエンドを実装することで、高速なページを表示させる
+
 # アプリケーションURL
 ローカル環境
-http://localhost/3000
+http://localhost/3000/attendance
 
 # 機能一覧
 

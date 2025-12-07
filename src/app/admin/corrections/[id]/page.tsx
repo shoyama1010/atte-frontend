@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 type CorrectionDetail = {
   user_name: string;
@@ -22,6 +22,7 @@ type CorrectionDetail = {
 
 export default function AdminCorrectionDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id;
 
   const [detail, setDetail] = useState<CorrectionDetail | null>(null);

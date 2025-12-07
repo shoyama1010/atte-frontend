@@ -36,7 +36,7 @@ export default function UserAttendancePage() {
 
   // API 取得
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/user/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}api/attendances/user/${id}?month=${month}`)
       .then((res) => res.json())
       .then((data) => {
         setRecords(data.records);

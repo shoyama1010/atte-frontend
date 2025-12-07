@@ -28,6 +28,9 @@ http://localhost/3000/attendance
 ・ユーザー側・勤怠詳細⇒修正申請機能（承認待ち＝承認済情報取得、申請詳細表示）
 <img width="1359" height="675" alt="Image" src="https://github.com/user-attachments/assets/52c9a38c-6621-4ee0-9348-c52b55a3dffe" />
 
+管理側・申請一覧⇒修正申請機能
+<img width="1355" height="671" alt="Image" src="https://github.com/user-attachments/assets/fa207cad-ae2b-4715-98c0-7f84b6055bcc" />
+
 # 使用技術
 ・Next.js 14
 

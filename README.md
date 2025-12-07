@@ -22,6 +22,10 @@ http://localhost/3000/attendance
 
 <img width="1352" height="679" alt="Image" src="https://github.com/user-attachments/assets/bddf26e2-0949-4511-83af-cf170cf686c2" />
 
+・ユーザー側・ＣＲＵＤ機能（勤怠情報取得、月情報取得、詳細遷移）
+<img width="1366" height="683" alt="Image" src="https://github.com/user-attachments/assets/aac35554-3815-443d-9011-3b0acce3fdfc" />
+
+
 
 # 使用技術
 ・Next.js 14

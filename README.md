@@ -2,7 +2,8 @@
 
 # 作成した目的
 
-Laravelでのバックエンド側だけでなく、API連携により、Next.jsでのフロントエンドを実装することで、高速なページを表示させる
+Laravelでのバックエンド側だけでなく、API連携により、Next.jsでのフロントエンドを実装することで、高速なページを表示させる機能を目的としてます。
+（開発の途中なので、フロントエンドのスキル習得も目的にしており、管理側などのマルチログインも未完成です）
 
 # アプリケーションURL
 ローカル環境
@@ -19,6 +20,8 @@ http://localhost/3000/attendance
 ③Next.js 側の API リクエスト時に、その Cookie が自動的に送信される⇒Laravel は「ログイン済みユーザー」として認証。
 
 ＊http://localhost/3000/attendance は、個人別ではなく、「全ユーザー取得機能」として、フロントエンド用にページ作成しました。
+
+（管理側へのログインも実装しておりません。http://localhost:3000/admin/corrections/list　から入ります）
 
 <img width="1352" height="679" alt="Image" src="https://github.com/user-attachments/assets/bddf26e2-0949-4511-83af-cf170cf686c2" />
 

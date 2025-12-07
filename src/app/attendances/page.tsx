@@ -89,8 +89,16 @@ export default function AttendanceListPage() {
                       {formatDate(r.date)}
                     </td>
                     <td className='py-3 px-4 border-r text-center'>
-                      {r.user_name}
+                      <Link
+                        href={`/attendances/user/${r.user_id}`} // ← user_id を使用
+                        className='text-blue-600 hover:text-blue-800 underline'
+                      >
+                        {r.user_name}
+                      </Link>
                     </td>
+                    {/* <td className='py-3 px-4 border-r text-center'>
+                      {r.user_name}
+                    </td> */}
                     <td className='py-3 px-4 border-r text-center'>
                       {r.clock_in_time ? formatTime(r.clock_in_time) : "―"}
                     </td>

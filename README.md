@@ -18,6 +18,8 @@ http://localhost/3000/attendance
 
 ③Next.js 側の API リクエスト時に、その Cookie が自動的に送信される⇒Laravel は「ログイン済みユーザー」として認証。
 
+＊http://localhost/3000/attendance は、個人別ではなく、「全ユーザー取得機能」として、フロントエンド用にページ作成しました。
+
 # 使用技術
 ・Next.js 14
 
@@ -53,7 +55,7 @@ npm install
 
 （API エンドポイントをバックエンド側 Laravel の URL に合わせてください）
 
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api
+NEXT_PUBLIC_API_BASE_URL=http://localhost
 
 ## 4. 開発サーバーを起動
 

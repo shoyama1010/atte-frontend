@@ -20,6 +20,9 @@ http://localhost/3000/attendance
 
 ＊http://localhost/3000/attendance は、個人別ではなく、「全ユーザー取得機能」として、フロントエンド用にページ作成しました。
 
+<img width="1352" height="679" alt="Image" src="https://github.com/user-attachments/assets/bddf26e2-0949-4511-83af-cf170cf686c2" />
+
+
 # 使用技術
 ・Next.js 14
 

@@ -21,8 +21,6 @@ http://localhost/3000/attendance
 
 ＊http://localhost/3000/attendance は、個人別ではなく、「全ユーザー取得機能」として、フロントエンド用にページ作成しました。
 
-（管理側へのログインも実装しておりません。http://localhost:3000/admin/corrections/list　から入ります）
-
 <img width="1352" height="679" alt="Image" src="https://github.com/user-attachments/assets/bddf26e2-0949-4511-83af-cf170cf686c2" />
 
 ・ユーザー側・ＣＲＵＤ機能（勤怠情報取得、月情報取得、詳細遷移）
@@ -31,7 +29,7 @@ http://localhost/3000/attendance
 ・ユーザー側・勤怠詳細⇒修正申請機能（承認待ち＝承認済情報取得、申請詳細表示）
 <img width="1359" height="675" alt="Image" src="https://github.com/user-attachments/assets/52c9a38c-6621-4ee0-9348-c52b55a3dffe" />
 
-管理側・申請一覧⇒修正申請機能
+管理側・申請一覧⇒修正申請機能　（管理側へのログインも実装しておりません。http://localhost:3000/admin/corrections/list　）
 <img width="1355" height="671" alt="Image" src="https://github.com/user-attachments/assets/fa207cad-ae2b-4715-98c0-7f84b6055bcc" />
 
 # 使用技術

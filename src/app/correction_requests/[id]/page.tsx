@@ -130,7 +130,6 @@ export default function CorrectionRequestDetailPage() {
           ← 申請一覧に戻る
         </Link>
       </div>
-      </div>
     </Layout>
   );
 }

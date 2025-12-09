@@ -19,7 +19,7 @@ export default function CorrectionListPage() {
 
   useEffect(() => {
     // fetch(`http://localhost:8080/api/correction-requests?status=${tab}`)
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/correction-requests?status=${tab}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/correction-requests?status=${tab}`)
       .then((res) => res.json())
       .then((data) => setRequests(data))
       .catch((err) => console.error("API fetch error:", err));

@@ -20,7 +20,7 @@ export default function AttendanceListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/attendances`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances`;
     console.log("🔗 Fetching:", apiUrl);
 
     fetch(apiUrl)

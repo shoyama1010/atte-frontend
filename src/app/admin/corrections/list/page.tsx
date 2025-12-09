@@ -17,7 +17,7 @@ export default function AdminCorrectionListPage() {
 
   useEffect(() => {
     // ✅ 環境変数を使用して、API URLを一元管理
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/correction-requests?status=${status}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/correction-requests?status=${status}`;
 
     console.log("🔗 Fetching:", apiUrl); // デバッグ確認用
 

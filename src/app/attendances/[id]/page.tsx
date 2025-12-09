@@ -25,7 +25,7 @@ export default function AttendanceDetailPage() {
 
   useEffect(() => {
     if (!id) return;
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/attendances/${id}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/${id}`;
     console.log("🔗 Fetching:", apiUrl);
 
     fetch(apiUrl)

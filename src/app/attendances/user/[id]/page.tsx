@@ -13,6 +13,7 @@ type Attendance = {
   clock_out_time: string | null;
   rest_start?: string | null;
   rest_end?: string | null;
+  rest_display?: string | null;
 };
 
 export default function UserAttendancePage() {
@@ -45,9 +46,19 @@ export default function UserAttendancePage() {
         if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
         return res.json();
       })
+
       .then((data) => {
         setRecords(data.records);
-        setUserName(data.user.name);
+
+        // どちらの形式でも対応できるように安全に処理
+        if (data.user && data.user.name) {
+          setUserName(data.user.name);
+        } else if (data.user_name) {
+          setUserName(data.user_name);
+        } else {
+          setUserName("不明なユーザー");
+        }
+        // setUserName(data.user.name);
       })
       .catch((err) => console.error("API Error:", err))
       .finally(() => setLoading(false));
@@ -117,11 +128,14 @@ export default function UserAttendancePage() {
                     {r.clock_out_time ? formatTime(r.clock_out_time) : "―"}
                   </td>
                   <td className='py-2 px-3 text-center'>
-                    {r.rest_start && r.rest_end
+                    {r.rest_display
+                      ? r.rest_display // Laravelで生成した "11:30～12:00／15:00～15:17" 等をそのまま表示
+                      : "―"}
+                    {/* {r.rest_start && r.rest_end
                       ? `${formatTime(r.rest_start)} ～ ${formatTime(
                           r.rest_end
                         )}`
-                      : "―"}
+                      : "―"} */}
                   </td>
                 </tr>
               ))

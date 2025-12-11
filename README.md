@@ -67,7 +67,7 @@ npm install
 
 （API エンドポイントをバックエンド側 Laravel の URL に合わせてください）
 
-NEXT_PUBLIC_API_BASE_URL=http://localhost
+NEXT_PUBLIC_API_BASE_URL=http://localhost/api
 
 ## 4. 開発サーバーを起動
 

@@ -1,42 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams, useRouter } from "next/navigation";
-// import { useSearchParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Layout from "@/components/Layout";
-import { formatDate, formatTime } from "@/components/utils/time";
 
-type Attendance = {
+type AttendanceRecord = {
   id: number;
   date: string;
   clock_in_time: string | null;
   clock_out_time: string | null;
-  rest_start?: string | null;
-  rest_end?: string | null;
   rest_display?: string | null;
+  // rest_start?: string | null;
+  // rest_end?: string | null;
 };
 
 export default function UserAttendancePage() {
-  const { id } = useParams(); // ★ ← ここでURLパラメータを取得
-  const searchParams = useSearchParams();
-  const defaultMonth = new Date().toISOString().slice(0, 7);
-  const [month, setMonth] = useState(searchParams.get("month") || defaultMonth);
-  const [records, setRecords] = useState<Attendance[]>([]);
+  const { id } = useParams();
+  const [records, setRecords] = useState<AttendanceRecord[]>([]);
   const [userName, setUserName] = useState("");
+  const [month, setMonth] = useState("2025-12");
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-  // const id = 1; // ★ 現時点では仮のユーザーID（ログイン情報連携時に差し替え）
-
-  // 月移動
-  const moveMonth = (n: number) => {
-    const [y, m] = month.split("-").map(Number);
-    const next = new Date(y, m - 1 + n);
-    const newMonth = next.toISOString().slice(0, 7);
-    setMonth(newMonth);
-    router.push(`/attendances/user?month=${newMonth}`);
+  // 時間フォーマット（"2025-12-08T06:54:00.000000Z" → "06:54"）
+  const formatTime = (datetime: string | null) => {
+    if (!datetime) return "―";
+    const d = new Date(datetime);
+    return d.toTimeString().slice(0, 5); // "06:54"
   };
 
-  // API取得
   useEffect(() => {
     const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/user/${id}?month=${month}`;
     console.log("Fetching:", apiUrl);
@@ -46,97 +36,76 @@ export default function UserAttendancePage() {
         if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
         return res.json();
       })
-
       .then((data) => {
         setRecords(data.records);
-
-        // どちらの形式でも対応できるように安全に処理
-        if (data.user && data.user.name) {
-          setUserName(data.user.name);
-        } else if (data.user_name) {
-          setUserName(data.user_name);
-        } else {
-          setUserName("不明なユーザー");
-        }
-        // setUserName(data.user.name);
+        setUserName(data.user?.name || "");
       })
-      .catch((err) => console.error("API Error:", err))
+      .catch((err) => console.error("API ERROR:", err))
       .finally(() => setLoading(false));
   }, [id, month]);
 
-  if (loading)
-    return (
-      <Layout>
-        <p className='text-center text-gray-500 py-12 text-lg'>読み込み中...</p>
-      </Layout>
-    );
+  if (loading) return <Layout>読み込み中...</Layout>;
+
+  const changeMonth = (offset: number) => {
+    const current = new Date(month + "-01");
+    current.setMonth(current.getMonth() + offset);
+    setMonth(current.toISOString().slice(0, 7));
+  };
 
   return (
     <Layout>
-      <div className='max-w-4xl mx-auto py-10'>
-        <h2 className='text-2xl font-bold mb-6 text-center'>
-          {userName} さんの勤怠一覧
+      <div className='px-4 py-8 bg-gray-200 rounded-md'>
+        <h2 className='text-center text-2xl font-bold mb-6'>
+          {userName ? `${userName} さんの勤怠一覧` : "勤怠一覧"}
         </h2>
 
-        {/* 月移動 */}
-        <div className='flex justify-center items-center gap-6 mb-8'>
+        <div className='text-center mb-6 flex justify-center items-center space-x-4'>
           <button
-            onClick={() => moveMonth(-1)}
-            className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'
+            onClick={() => changeMonth(-1)}
+            className='px-4 py-2 bg-gray-300 rounded hover:bg-gray-400'
           >
-            &lt; 前月
+            ＜ 前月
           </button>
           <span className='text-xl font-semibold'>{month}</span>
           <button
-            onClick={() => moveMonth(1)}
-            className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'
+            onClick={() => changeMonth(1)}
+            className='px-4 py-2 bg-gray-300 rounded hover:bg-gray-400'
           >
-            翌月 &gt;
+            翌月 ＞
           </button>
         </div>
 
-        {/* テーブル */}
-        <table className='w-full border border-gray-300 text-sm text-gray-700 bg-white shadow-md'>
+        <table className='w-full border border-gray-400 bg-white shadow-md'>
           <thead className='bg-gray-100 border-b'>
             <tr>
-              <th className='py-2 border'>日付</th>
-              <th className='py-2 border'>出勤</th>
-              <th className='py-2 border'>退勤</th>
-              <th className='py-2 border'>休憩</th>
+              <th className='py-2 border-r'>日付</th>
+              <th className='py-2 border-r'>出勤</th>
+              <th className='py-2 border-r'>退勤</th>
+              <th className='py-2'>休憩</th>
             </tr>
           </thead>
+
           <tbody>
             {records.length === 0 ? (
               <tr>
                 <td
                   colSpan={4}
-                  className='text-center py-6 text-gray-400 italic'
+                  className='text-center py-6 text-gray-500 italic'
                 >
-                  データがありません
+                  データがありません。
                 </td>
               </tr>
             ) : (
               records.map((r) => (
                 <tr key={r.id} className='border-b'>
-                  <td className='py-2 px-3 text-center'>
-                    {formatDate(r.date)}
+                  <td className='py-2 text-center'>{r.date}</td>
+                  <td className='py-2 text-center'>
+                    {formatTime(r.clock_in_time)}
                   </td>
-                  <td className='py-2 px-3 text-center'>
-                    {r.clock_in_time ? formatTime(r.clock_in_time) : "―"}
+                  <td className='py-2 text-center'>
+                    {formatTime(r.clock_out_time)}
                   </td>
-                  <td className='py-2 px-3 text-center'>
-                    {r.clock_out_time ? formatTime(r.clock_out_time) : "―"}
-                  </td>
-                  <td className='py-2 px-3 text-center'>
-                    {r.rest_display
-                      ? r.rest_display // Laravelで生成した "11:30～12:00／15:00～15:17" 等をそのまま表示
-                      : "―"}
-                    {/* {r.rest_start && r.rest_end
-                      ? `${formatTime(r.rest_start)} ～ ${formatTime(
-                          r.rest_end
-                        )}`
-                      : "―"} */}
-                  </td>
+                  <td className='py-2 text-center'>{r.rest_display ?? "―"}</td>
                 </tr>
               ))
             )}

@@ -7,6 +7,7 @@ import Layout from "@/components/Layout";
 
 type Attendance = {
   id: number;
+  user_id: number;
   user_name: string;
   date: string;
   clock_in_time: string | null;
@@ -63,7 +64,7 @@ export default function AttendanceListPage() {
                 <th className='py-3 px-4 text-center border-r'>出勤</th>
                 <th className='py-3 px-4 text-center border-r'>退勤</th>
                 <th className='py-3 px-4 text-center border-r'>休憩</th>
-                <th className='py-3 px-4 text-center'>操作</th>
+                <th className='py-3 px-4 text-center'>詳細</th>
               </tr>
             </thead>
 

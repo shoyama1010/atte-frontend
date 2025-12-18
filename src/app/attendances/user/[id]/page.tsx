@@ -9,9 +9,9 @@ type AttendanceRecord = {
   date: string;
   clock_in_time: string | null;
   clock_out_time: string | null;
-  rest_display?: string | null;
-  // rest_start?: string | null;
-  // rest_end?: string | null;
+  // rest_display: string | null;
+  rest_total: string; // ★追加
+  total_work: string | null;
 };
 
 export default function UserAttendancePage() {
@@ -20,15 +20,17 @@ export default function UserAttendancePage() {
   const [userName, setUserName] = useState("");
   const [month, setMonth] = useState("2025-12");
   const [loading, setLoading] = useState(true);
-  // 時間フォーマット（"2025-12-08T06:54:00.000000Z" → "06:54"）
-  const formatTime = (datetime: string | null) => {
-    if (!datetime) return "―";
-    const d = new Date(datetime);
-    return d.toTimeString().slice(0, 5); // "06:54"
+
+  // "2025-12-08T06:54:00Z" → "06:54"
+  const formatTime = (time: string | null) => {
+    return time ?? "―"; // Laravel で "07:30" に整形済み
   };
 
   useEffect(() => {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/user/${id}?month=${month}`;
+    if (!id) return;
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/user/${id}/monthly?month=${month}`;
+
     console.log("Fetching:", apiUrl);
 
     fetch(apiUrl)
@@ -37,6 +39,8 @@ export default function UserAttendancePage() {
         return res.json();
       })
       .then((data) => {
+        console.log("API Response:", data);
+
         setRecords(data.records);
         setUserName(data.user?.name || "");
       })
@@ -46,6 +50,7 @@ export default function UserAttendancePage() {
 
   if (loading) return <Layout>読み込み中...</Layout>;
 
+  // 月移動
   const changeMonth = (offset: number) => {
     const current = new Date(month + "-01");
     current.setMonth(current.getMonth() + offset);
@@ -59,6 +64,7 @@ export default function UserAttendancePage() {
           {userName ? `${userName} さんの勤怠一覧` : "勤怠一覧"}
         </h2>
 
+        {/* 月移動 */}
         <div className='text-center mb-6 flex justify-center items-center space-x-4'>
           <button
             onClick={() => changeMonth(-1)}
@@ -75,13 +81,15 @@ export default function UserAttendancePage() {
           </button>
         </div>
 
+        {/* 勤怠テーブル */}
         <table className='w-full border border-gray-400 bg-white shadow-md'>
           <thead className='bg-gray-100 border-b'>
             <tr>
               <th className='py-2 border-r'>日付</th>
               <th className='py-2 border-r'>出勤</th>
               <th className='py-2 border-r'>退勤</th>
-              <th className='py-2'>休憩</th>
+              <th className='py-2 border-r'>休憩</th>
+              <th className='py-2'>合計</th>
             </tr>
           </thead>
 
@@ -89,7 +97,7 @@ export default function UserAttendancePage() {
             {records.length === 0 ? (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={5}
                   className='text-center py-6 text-gray-500 italic'
                 >
                   データがありません。
@@ -99,13 +107,22 @@ export default function UserAttendancePage() {
               records.map((r) => (
                 <tr key={r.id} className='border-b'>
                   <td className='py-2 text-center'>{r.date}</td>
+
                   <td className='py-2 text-center'>
                     {formatTime(r.clock_in_time)}
                   </td>
                   <td className='py-2 text-center'>
                     {formatTime(r.clock_out_time)}
                   </td>
-                  <td className='py-2 text-center'>{r.rest_display ?? "―"}</td>
+                  <td className='py-2 text-center'>
+                    {r.rest_total ?? "00:00"}
+                    {/* {r.rest_display && r.rest_display !== "―"
+                      ? r.rest_display
+                      : "―"} */}
+                  </td>
+                  <td className='py-2 text-center'>
+                    {r.total_work ?? "00:00"}
+                  </td>
                 </tr>
               ))
             )}

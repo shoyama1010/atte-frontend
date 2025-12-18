@@ -32,6 +32,9 @@ http://localhost/3000/attendance
 管理側・申請一覧⇒修正申請機能　（管理側へのログインも実装しておりません。http://localhost:3000/admin/corrections/list　）
 <img width="1355" height="671" alt="Image" src="https://github.com/user-attachments/assets/fa207cad-ae2b-4715-98c0-7f84b6055bcc" />
 
+ユーザー側・勤怠一覧機能
+<img width="1335" height="660" alt="Image" src="https://github.com/user-attachments/assets/39e3bd19-a94a-44fb-af6a-a493ddcf8df9" />
+
 # 使用技術
 ・Next.js 14
 

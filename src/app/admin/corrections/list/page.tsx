@@ -69,10 +69,10 @@ export default function AdminCorrectionListPage() {
       <table className='w-full border border-gray-300 bg-white'>
         <thead className='bg-gray-100'>
           <tr>
-            <th className='p-3 border'>ユーザー</th>
+            <th className='p-3 border'>氏名</th>
             <th className='p-3 border'>対象日</th>
-            <th className='p-3 border'>ステータス</th>
-            <th className='p-3 border'>操作</th>
+            <th className='p-3 border'>状態</th>
+            <th className='p-3 border'>詳細</th>
           </tr>
         </thead>
         <tbody>

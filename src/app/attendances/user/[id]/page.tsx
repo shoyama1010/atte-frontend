@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Layout from "@/components/Layout";
+import Layout from "@/app/(user)/Layout";
 
 type AttendanceRecord = {
   id: number;
@@ -28,7 +28,6 @@ export default function UserAttendancePage() {
 
   useEffect(() => {
     if (!id) return;
-
     const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances/user/${id}/monthly?month=${month}`;
 
     console.log("Fetching:", apiUrl);
@@ -46,8 +45,9 @@ export default function UserAttendancePage() {
       })
       .catch((err) => console.error("API ERROR:", err))
       .finally(() => setLoading(false));
-  }, [id, month]);
 
+  }, [id, month]);  // 依存配列
+  
   if (loading) return <Layout>読み込み中...</Layout>;
 
   // 月移動
@@ -116,9 +116,7 @@ export default function UserAttendancePage() {
                   </td>
                   <td className='py-2 text-center'>
                     {r.rest_total ?? "00:00"}
-                    {/* {r.rest_display && r.rest_display !== "―"
-                      ? r.rest_display
-                      : "―"} */}
+                   
                   </td>
                   <td className='py-2 text-center'>
                     {r.total_work ?? "00:00"}

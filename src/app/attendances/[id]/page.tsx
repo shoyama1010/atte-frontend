@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Layout from "@/components/Layout";
+import Layout from "@/app/(user)/Layout";
 import { formatDate, formatTime } from "@/components/utils/time";
 
 type Attendance = {

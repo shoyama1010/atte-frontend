@@ -33,7 +33,8 @@ export default function AdminCorrectionListPage() {
       .then((data) => setList(data))
       .catch((err) => console.error("API Error:", err))
       .finally(() => setLoading(false));
-  }, [status]);
+
+  }, [status]); 
 
   if (loading) return <div>読み込み中...</div>;
 

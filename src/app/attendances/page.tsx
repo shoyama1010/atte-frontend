@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { formatDate, formatTime } from "@/components/utils/time";
-import Layout from "@/components/Layout";
+import Layout from "@/app/(user)/Layout";
 
 type Attendance = {
   id: number;

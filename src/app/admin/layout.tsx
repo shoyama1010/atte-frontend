@@ -1,15 +1,16 @@
-import AdminHeader from "@/components/AdminHeader";
-import "../globals.css";
+"use client";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+// import Link from "next/link";
+import type { ReactNode } from "react";
+import AdminHeader from "@/components/AdminHeader";
+
+export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <AdminHeader />
-      <main className="pt-8 px-10">{children}</main>
+      
+      <main className='px-4 py-8 bg-gray-100 min-h-screen'>{children}</main>
     </>
   );
 }
+

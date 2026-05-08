@@ -19,6 +19,7 @@ type CorrectionDetail = {
 export default function CorrectionRequestDetailPage() {
   const { id } = useParams();
   const [detail, setDetail] = useState<CorrectionDetail | null>(null);
+  
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/correction-requests/${id}`)
@@ -41,7 +42,6 @@ export default function CorrectionRequestDetailPage() {
   }, [id]);
 
   if (!detail) return <Layout>読み込み中...</Layout>;
-
   // UI の間隔を詰めるための共通スタイル
   const rowClass = "flex justify-between items-center border-b pb-3 pt-3";
   const labelClass = "font-semibold w-32"; // 左項目の幅固定（間隔が開かない）

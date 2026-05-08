@@ -2,8 +2,21 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { formatDate, formatTime } from "@/components/utils/time";
+import { formatDate } from "@/components/utils/time";
 import Layout from "@/app/(user)/Layout";
+
+//  時間フォーマット
+const formatTime = (value?: string | null) => {
+  if (!value) return "―";
+
+  const date = new Date(value);
+
+  return date.toLocaleTimeString("ja-JP", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+};
 
 type Attendance = {
   id: number;
@@ -22,7 +35,7 @@ export default function AttendanceListPage() {
 
   useEffect(() => {
     const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/attendances`;
-    console.log("🔗 Fetching:", apiUrl);
+    // console.log("🔗 Fetching:", apiUrl);
 
     fetch(apiUrl)
       .then((res) => {
@@ -82,10 +95,10 @@ export default function AttendanceListPage() {
                 records.map((r, i) => (
                   <tr
                     key={r.id}
-                    className={`border-b hover:bg-gray-50 transition ${
-                      i % 2 === 0 ? "bg-white" : "bg-gray-50"
-                    }`}
+                    className={`border-b hover:bg-gray-50 transition ${i % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      }`}
                   >
+                    {/* 日付 */}
                     <td className='py-3 px-4 border-r text-center font-medium text-gray-800'>
                       {formatDate(r.date)}
                     </td>
@@ -97,20 +110,18 @@ export default function AttendanceListPage() {
                         {r.user_name}
                       </Link>
                     </td>
-                    {/* <td className='py-3 px-4 border-r text-center'>
-                      {r.user_name}
-                    </td> */}
-                    <td className='py-3 px-4 border-r text-center'>
-                      {r.clock_in_time ? formatTime(r.clock_in_time) : "―"}
+                    
+                    <td className='py-3 px-4 border-r text-center'>   
+                      {formatTime(r.clock_in_time)}
                     </td>
                     <td className='py-3 px-4 border-r text-center'>
-                      {r.clock_out_time ? formatTime(r.clock_out_time) : "―"}
+                      {formatTime(r.clock_out_time)}
                     </td>
                     <td className='py-3 px-4 border-r text-center text-gray-700'>
                       {r.rest_start && r.rest_end
-                        ? `${formatTime(r.rest_start)} ～ ${formatTime(
-                            r.rest_end
-                          )}`
+                        ? `${(r.rest_start)} ～ ${(
+                          r.rest_end
+                        )}`
                         : "―"}
                     </td>
                     <td className='py-3 px-4 text-center'>

@@ -15,11 +15,11 @@ http://localhost/3000/attendance
 
 ①バックエンド側のマルチログイン(一般、新規登録、管理者)ページの「Next版」ボタンから仮ログインページに遷移
 
-①localhost:3000/login で、一般ユーザーか管理者を選んで、ログイン。
+②localhost:3000/login で、一般ユーザーか管理者を選んで、ログイン。
 
-②Laravel が XSRF-TOKEN + laravel_session Cookie を発行。
+③Laravel が XSRF-TOKEN + laravel_session Cookie を発行。
 
-③Next.js 側の API リクエスト時に、その Cookie が自動的に送信される⇒Laravel は「ログイン済みユーザー」として認証。
+④Next.js 側の API リクエスト時に、その Cookie が自動的に送信される⇒Laravel は「ログイン済みユーザー」として認証。
 
 ＊http://localhost/3000/attendance は、個人別ではなく、「全ユーザー取得機能」として、フロントエンド用にページ作成しました。
 

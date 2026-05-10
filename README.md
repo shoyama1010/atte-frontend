@@ -15,7 +15,7 @@ http://localhost/3000/attendance
 
 ①バックエンド側のマルチログイン(一般、新規登録、管理者)ページの「Next版」ボタンから仮ログインページに遷移
 
-②localhost:3000/login で、一般ユーザーか管理者を選んで、ログイン。
+②localhost:3000/login(仮のログインページ) で、一般ユーザーか管理者を選んで、ログイン。
 
 ③Laravel が XSRF-TOKEN + laravel_session Cookie を発行。
 

@@ -25,7 +25,7 @@ http://localhost/3000/attendance
 <img width="1204" height="666" alt="Image" src="https://github.com/user-attachments/assets/6eb85adb-bf37-43a2-ad47-7feb0c7471da" />
 
 ・全ユーザー取得機能
-＊http://localhost/3000/attendance は、個人別ではなく、「全ユーザー取得機能」として、フロントエンド用にページ作成しました。
+- http://localhost/3000/attendance は、個人別ではなく、「全ユーザー取得機能」として、フロントエンド用にページ作成しました。
 <img width="1352" height="679" alt="Image" src="https://github.com/user-attachments/assets/bddf26e2-0949-4511-83af-cf170cf686c2" />
 
 ・ユーザー側・ＣＲＵＤ機能（勤怠情報取得、月情報取得、詳細遷移）

@@ -1,4 +1,4 @@
-# attendance-frontend（勤怠管理：フロントエンド）
+# atte-frontend（勤怠管理：フロントエンド）
 
 # 作成した目的
 

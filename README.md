@@ -61,13 +61,17 @@ http://localhost/3000/attendance
 
 ## 1. リポジトリをクローン
 
-git clone https://github.com/shoyama1010/fruit-furima-frontend.git
+git clone https://github.com/shoyama1010/atte-frontend.git
 
-cd fruit-furima-frontend
+mkdir atte-frontend
 
-## 2.　パッケージをインストール
+cd atte-frontend
+
+## 2.　パッケージをインストールと環境バージョンアップ
 
 npm install
+
+node -v ⇒　＊ Node が 18 系なら、まず 20.9 以上に上げてください。
 
 ## 3. 環境変数ファイルを作成
 
